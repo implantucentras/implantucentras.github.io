@@ -2,12 +2,16 @@
 box-shadow: 0 10px 16px rgba(0, 0, 0, .13), 0 6px 6px rgba(0, 0, 0, .19);
 }
 
-.hide {
-    display: none;
-}
-
  .svg2{
      background-color: hsl(0, 0%, 86%); 
      fill: hsl(171, 100%, 41%);
  } 
+
+ #map-canvas {    
+    width: 100%;
+    height: 360px;
+    background-color: #CCC;
+    float: left;   
+    
+}
  

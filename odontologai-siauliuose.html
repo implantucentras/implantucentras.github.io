@@ -102,12 +102,14 @@
                     <table class="table is-fullwidth is-striped">
                         <thead class="has-background-grey-light">
                             <tr>
+                                <th><abbr title="Eil. Nr.">nr.</abbr></th>
                                 <th><abbr title="Odontologijos klinikos Šiauliuose">odontologijos klinika</abbr></th>
                                 <th><abbr title="Klinikos internetinis puslapis">web</abbr></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td>1.</td>
                                 <td>Šiaulių implantologijos centras</td>
                                 <td>
                                     <span>
@@ -120,6 +122,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>2.</td>
                                 <td>Gegužių odontologijos klinika</td>
                                 <td>
                                     <span>
@@ -133,6 +136,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>3.</td>
                                 <td>Clinic DPC</td>
                                 <td>
                                     <span>
@@ -145,6 +149,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>4.</td>
                                 <td>Implantologijos klinika</td>
                                 <td>
                                     <span>
@@ -158,6 +163,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>5.</td>
                                 <td>Dantų linija</td>
                                 <td>
                                     <span>
@@ -170,6 +176,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>6.</td>
                                 <td>Redonta</td>
                                 <td>
                                     <span>
@@ -182,6 +189,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>7.</td>
                                 <td>Dantida</td>
                                 <td>
                                     <span>
@@ -194,6 +202,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>8.</td>
                                 <td>Denti</td>
                                 <td>
                                     <span>
@@ -206,6 +215,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>9.</td>
                                 <td>Draugystės odontologijos klinika</td>
                                 <td>
                                     <span>
@@ -218,6 +228,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>10.</td>
                                 <td>Rūtos Gegužienės odontologijos klinika</td>
                                 <td>
                                     <span>
@@ -234,6 +245,8 @@
                         </tbody>
                     </table>
 
+                    <div id="map-canvas"></div>
+
                 </div>
 
 
@@ -244,6 +257,95 @@
 
 
     <script type="text/javascript" src="/myscript.js"></script>
+
+    <script>
+        function initialize() {
+            var styledMapType = new google.maps.StyledMapType(
+                [
+                    {
+                        "featureType": "landscape.man_made",
+                        "elementType": "geometry.fill",
+                        "stylers": [
+                            {
+                                "hue": "#00D1B2"
+                            },
+                            {
+                                "saturation": 40
+                            }]
+                    },
+                    {
+                        "featureType": "poi.business",
+                        "stylers": [
+                            { "visibility": "off" }]
+
+                    }
+                ]);
+
+
+            var mapCanvas = document.getElementById('map-canvas');
+            var mapOptions = {
+                center: new google.maps.LatLng(55.922802,23.3024923),
+                zoom: 13,
+                mapTypeControl: false,
+                streetViewControl: false,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+
+            map.mapTypes.set('styled_map', styledMapType);
+            map.setMapTypeId('styled_map');
+
+
+            var klinikos = [
+                {
+                    position: new google.maps.LatLng(55.9176556,23.2830652),
+                    title: 'Šiaulių implantologijos centras'
+                }, {
+                    position: new google.maps.LatLng(55.9089063,23.253639),
+                    title: 'Gegužių odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(55.927494,23.3149703),
+                    title: 'Clinic DPC'
+                }, {
+                    position: new google.maps.LatLng(55.9362379,23.3159645),
+                    title: 'Implantologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(55.924877,23.3101103),
+                    title: 'Dantų linija'
+                }, {
+                    position: new google.maps.LatLng(55.9303145,23.3074066),
+                    title: 'Redonta'
+                }, {
+                    position: new google.maps.LatLng(55.9313145,23.2976778),
+                    title: 'Dantida'
+                }, {
+                    position: new google.maps.LatLng(55.9248954,23.3147585),
+                    title: 'Denti'
+                }, {
+                    position: new google.maps.LatLng(55.9257312,23.3152754),
+                    title: 'Draugystės odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(55.930978,23.3087143),
+                    title: 'Rūtos Gegužienės odontologijos klinika'
+                }
+            ];
+
+            for (var i = 0; i < klinikos.length; i++) {
+                var marker = new google.maps.Marker({
+                    position: klinikos[i].position,
+                    icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (i + 1) + '|99FFF0|000000',
+                    map: map,
+                    title: klinikos[i].title
+                });
+            };
+
+
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek&amp;callback=initialize">
+        </script>
 
 </body>
 
