@@ -369,7 +369,7 @@
             <br />
             <br />
 
-            <h2 class="title is-4 has-text-centered">Odontologai Naujamiestyje, Senamiestyje ir Antakalnyje</h2>
+            <h2 class="title is-4 has-text-centered">Odontologai Senamiestyje ir Antakalnyje</h2>
 
             <div class="tile is-ancestor">
                 <div class="tile is-parent is-4">
@@ -425,7 +425,7 @@
                             <p class="card-footer-item">
                                 <span>
                                     <a href="https://www.google.com/maps/search/?api=1&query=Vilniaus+g.+25,+Vilnius"
-                                        rel="nofollow" title="Vilniaus g. 25, Vilnius (Naujamiestis)">
+                                        rel="nofollow" title="Vilniaus g. 25, Vilnius (Senamiestis)">
                                         <span class="icon is-large fa-2x has-text-grey-light">
                                             <i class="fas fa-map-marker-alt"></i>
                                         </span>
@@ -1256,14 +1256,18 @@
 
             <diV class="columns">
                 <div class="column is-6 is-offset-3">
-                    <p>Vilniuje radome daugiau kaip 500 įmonių, kuriose teikiamos odontologijos paslaugos.<br />
-                        Pradžiai atsirinkome 35 populiariausias ir didžiausią apyvartą generuojančias odontologijos
-                        klinikas, kuriose atliekama dantų implantacija. Iš jų išrinkome tik 15 geriausių.<br />
+
+
+                    <p class="is-size-6">Vilniuje iš viso yra daugiau kaip 500 odontologijos klinikų.
+                        Pradžiai atsirinkome didžiausias ir populiariausias odontologijos klinikas,
+                        kurios per mėnesį surenka bent 50 000 eurų pajamų (2019 m.).
+                        Tokių klinikų Vilniaus mieste yra 35. Iš jų ir išrinkome 15 geriausių. <br />
                         <br />
                         <a class="button is-primary is-medium is-fullwidth"
                             title="35 populiariausi odontologai Vilniuje" href="/odontologai-vilniuje.html">
                             Populiariausi Vilniaus odontologai (35)</a>
                     </p>
+
                 </div>
             </diV>
         </div>
@@ -1368,7 +1372,20 @@
                     map: map,
                     title: klinikos[i].title
                 });
+
+                attachMessage(marker, klinikos[i].title);
+
             };
+
+            function attachMessage(marker, Message) {
+                var infowindow = new google.maps.InfoWindow({
+                    content: Message
+                });
+
+                marker.addListener('click', function () {
+                    infowindow.open(marker.get('map'), marker);
+                });
+            }
 
 
         }
