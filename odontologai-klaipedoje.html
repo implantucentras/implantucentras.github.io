@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Odontologai Klaipėdoje - 15 populiariausių klinikų</title>
-    <meta name="description" content="Didžiausios odontologijos klinikos ir populiariausi Klaipėdos odontologai.                
-                 15 geriausių odontologijos klinikų Klaipėdoje." />
+    <meta name="description" content="Odontologijos klinikos Klaipėdoje. Populiariausi odontologai.                
+                 15 geriausių odontologijos klinikų Klaipėdos mieste." />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" href="myadd.css" type="text/css">
@@ -478,6 +478,12 @@
                         </article>
                     </div>
 
+                    <h3 class="title is-4">Odontologų žemėlapis</h3>
+
+                    <div id="map-canvas"></div>
+
+                    <p class="is-size-6">Odontologijos klinikos Klaipėdoje. 15 populiariausių odontologų.
+                    </p>
 
 
                 </diV>
@@ -487,6 +493,123 @@
 
 
     <script type="text/javascript" src="/myscript.js"></script>
+
+    <script>
+        function initialize() {
+            var styledMapType = new google.maps.StyledMapType(
+                [
+                    {
+                        "featureType": "landscape.man_made",
+                        "elementType": "geometry.fill",
+                        "stylers": [
+                            {
+                                "hue": "#00D1B2"
+                            },
+                            {
+                                "saturation": 40
+                            }]
+                    },
+                    {
+                        "featureType": "poi.business",
+                        "stylers": [
+                            { "visibility": "off" }]
+
+                    }
+                ]);
+
+
+            var mapCanvas = document.getElementById('map-canvas');
+            var mapOptions = {
+                center: new google.maps.LatLng(55.699882, 21.1407963),
+                zoom: 12,
+                mapTypeControl: false,
+                streetViewControl: false,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+
+            map.mapTypes.set('styled_map', styledMapType);
+            map.setMapTypeId('styled_map');
+
+
+            var klinikos = [
+                {
+                    position: new google.maps.LatLng(55.711184, 21.1319479),
+                    title: 'Danės odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(55.719401, 21.1170262),
+                    title: 'Vaidenta'
+                }, {
+                    position: new google.maps.LatLng(55.6714941, 21.1897578),
+                    title: 'Danta'
+                }, {
+                    position: new google.maps.LatLng(55.7202294, 21.1328608),
+                    title: 'Evadenta'
+                }, {
+                    position: new google.maps.LatLng(55.6777422, 21.1662276),
+                    title: 'Lela'
+                }, {
+                    position: new google.maps.LatLng(55.7135853, 21.1318504),
+                    title: 'Klinike'
+                }, {
+                    position: new google.maps.LatLng(55.7180968, 21.120245),
+                    title: 'Žavi šypsena'
+                }, {
+                    position: new google.maps.LatLng(55.7138309, 21.1229201),
+                    title: 'Danvitė'
+                }, {
+                    position: new google.maps.LatLng(55.7168106, 21.1456653),
+                    title: 'Liepų klinika'
+                }, {
+                    position: new google.maps.LatLng(55.703839, 21.1404592),
+                    title: 'Klaipėdos ortodontijos centras'
+                }, {
+                    position: new google.maps.LatLng(55.75032, 21.1277591),
+                    title: 'Pajūrio odontologijos centras'
+                }, {
+                    position: new google.maps.LatLng(55.7127366, 21.1236743),
+                    title: 'Bokštų odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(55.7131783, 21.1339716),
+                    title: 'Deodenta'
+                }, {
+                    position: new google.maps.LatLng(55.7213303, 21.1264998),
+                    title: 'Dens perfectus'
+                }, {
+                    position: new google.maps.LatLng(55.7028951, 21.1346126),
+                    title: 'Klaipėdos implantologijos klinika'
+                }
+
+            ];
+
+            for (var i = 0; i < klinikos.length; i++) {
+                var marker = new google.maps.Marker({
+                    position: klinikos[i].position,
+                    icon: 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (i + 1) + '|99FFF0|000000',
+                    map: map,
+                    title: klinikos[i].title
+                });
+
+                attachMessage(marker, klinikos[i].title);
+
+            };
+
+            function attachMessage(marker, Message) {
+                var infowindow = new google.maps.InfoWindow({
+                    content: Message
+                });
+
+                marker.addListener('click', function () {
+                    infowindow.open(marker.get('map'), marker);
+                });
+            }
+
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek&amp;callback=initialize">
+        </script>
 
 </body>
 
