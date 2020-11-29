@@ -973,6 +973,14 @@
                         </article>
                     </div>
 
+                    <br/>
+
+                    <h3 class="title is-4">Odontologų žemėlapis</h3>
+
+                    <div id="map-canvas"></div>
+
+                    <p class="is-size-6">Odontologijos klinikos Vilniuje. 35 populiariausi odontologai.
+                    </p>
 
                 </div>
 
@@ -984,6 +992,184 @@
 
 
     <script type="text/javascript" src="/myscript.js"></script>
+
+    <script>
+        function initialize() {
+            var styledMapType = new google.maps.StyledMapType(
+                [
+                    {
+                        "featureType": "landscape.man_made",
+                        "elementType": "geometry.fill",
+                        "stylers": [
+                            {
+                                "hue": "#00D1B2"
+                            },
+                            {
+                                "saturation": 40
+                            }]
+                    },
+                    {
+                        "featureType": "poi.business",
+                        "stylers": [
+                            { "visibility": "off" }]
+
+                    }
+                ]);
+
+
+            var mapCanvas = document.getElementById('map-canvas');
+            var mapOptions = {
+                center: new google.maps.LatLng(54.7126787, 25.2629641),
+                zoom: 12,
+                mapTypeControl: false,
+                streetViewControl: false,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+
+            map.mapTypes.set('styled_map', styledMapType);
+            map.setMapTypeId('styled_map');
+
+
+            var klinikos = [
+                {
+                    position: new google.maps.LatLng(54.681353, 25.305679),
+                    title: 'Vilniaus implantologijos centras'
+                }, {
+                    position: new google.maps.LatLng(54.6813501, 25.3014452),
+                    title: 'Mažoji Užupio klinika'
+                }, {
+                    position: new google.maps.LatLng(54.6923065, 25.3025876),
+                    title: 'Baldentas'
+                }, {
+                    position: new google.maps.LatLng(54.6851507, 25.2792247),
+                    title: 'Denticija'
+                }, {
+                    position: new google.maps.LatLng(54.6723722, 25.2844531),
+                    title: 'Beadenta'
+                }, {
+                    position: new google.maps.LatLng(54.6824311, 25.2591855),
+                    title: 'Amicus Dentis'
+                }, {
+                    position: new google.maps.LatLng(54.6713441, 25.2574391),
+                    title: 'Skraidenta'
+                }, {
+                    position: new google.maps.LatLng(54.6732373, 25.2550455),
+                    title: 'Savickų implantavimo ir protezavimo klinika'
+                }, {
+                    position: new google.maps.LatLng(54.6716519, 25.253931),
+                    title: 'Arūno Tursos odontologijos namai'
+                }, {
+                    position: new google.maps.LatLng(54.6929316, 25.2513929),
+                    title: 'Šv. Kristoforo odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(54.6933622, 25.2506752),
+                    title: 'Žvėryno odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(54.6992684, 25.2708719),
+                    title: 'Dental PRO'
+                }, {
+                    position: new google.maps.LatLng(54.6994972, 25.2676553),
+                    title: 'Odontalis'
+                }, {
+                    position: new google.maps.LatLng(54.7066909, 25.2843579),
+                    title: 'Prodentum'
+                }, {
+                    position: new google.maps.LatLng(54.709176, 25.2841094),
+                    title: 'Albodent'
+                }, {
+                    position: new google.maps.LatLng(54.6900422, 25.2899553),
+                    title: 'Dantų harmonija'
+                }, {
+                    position: new google.maps.LatLng(54.694108, 25.2940523),
+                    title: 'V. Gustainio odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(54.6937049, 25.2940684),
+                    title: 'Alandrija'
+                }, {
+                    position: new google.maps.LatLng(54.7101965, 25.2913159),
+                    title: 'Vilniaus odontologijos namai'
+                }, {
+                    position: new google.maps.LatLng(54.708245, 25.3002963),
+                    title: 'Vilniaus odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(54.7057559, 25.316322),
+                    title: 'Denticija'
+                }, {
+                    position: new google.maps.LatLng(54.7202474, 25.3010538),
+                    title: 'Antakalnio stomatologijos centras'
+                }, {
+                    position: new google.maps.LatLng(54.7355323, 25.3364582),
+                    title: 'Gydytojų Mackevičių odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(54.7168113, 25.2812819),
+                    title: 'Papadent'
+                }, {
+                    position: new google.maps.LatLng(54.7284776, 25.2783757),
+                    title: 'MIR klinika'
+                }, {
+                    position: new google.maps.LatLng(54.7158042, 25.285216),
+                    title: 'Mikroskopinės odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(54.71975, 25.2813341),
+                    title: 'Dr. G. Kobs odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(54.7397723, 25.2735393),
+                    title: 'Jeruzalės odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(54.7377799, 25.2669459),
+                    title: 'Ateities odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(54.7200068, 25.2699047),
+                    title: 'Ozo odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(54.7154413, 25.2235895),
+                    title: 'Dentastra'
+                }, {
+                    position: new google.maps.LatLng(54.7632871, 25.2812044),
+                    title: 'Beladenta'
+                }, {
+                    position: new google.maps.LatLng(54.7506304, 25.2648882),
+                    title: 'Donato Jurgaičio odontologijos klinika'
+                }, {
+                    position: new google.maps.LatLng(54.702883, 25.186829),
+                    title: 'Pilėnė'
+                }, {
+                    position: new google.maps.LatLng(54.6769039, 25.2104173),
+                    title: 'Kosmodentas'
+                }
+            ];
+
+            for (var i = 0; i < klinikos.length; i++) {
+                var marker = new google.maps.Marker({
+                    position: klinikos[i].position,
+                    icon: 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (i + 1) + '|99FFF0|000000',
+                    map: map,
+                    title: klinikos[i].title
+                });
+
+                attachMessage(marker, klinikos[i].title);
+
+            };
+
+            function attachMessage(marker, Message) {
+                var infowindow = new google.maps.InfoWindow({
+                    content: Message
+                });
+
+                marker.addListener('click', function () {
+                    infowindow.open(marker.get('map'), marker);
+                });
+            }
+
+
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek&amp;callback=initialize">
+        </script>
+
 
 </body>
 
