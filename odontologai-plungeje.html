@@ -28,6 +28,14 @@
         ga('send', 'pageview');
 
     </script>
+
+    <script>
+        // prettier-ignore 
+        (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
+            key: "AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek"
+        });
+    </script>
+
     <script type="application/ld+json">
         {
           "@context": "http://schema.org",
@@ -725,7 +733,8 @@
                     <br /> <br /> <br />
                     <h3 class="title is-4">Odontologų žemėlapis</h3>
 
-                    <div id="map-canvas"></div>
+                    <gmp-map zoom="14" center="55.9094671, 21.8457793" map-id="AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek">
+                    </gmp-map>
 
                     <p class="is-size-6">Odontologijos klinikos Plungėje. Iš viso radome 13 odontologų.
                     </p>
@@ -738,117 +747,92 @@
 
     <script type="text/javascript" src="/myscript.js"></script>
 
+    <!--naujas google map-->
     <script>
-        function initialize() {
-            var styledMapType = new google.maps.StyledMapType(
-                [
-                    {
-                        "featureType": "landscape.man_made",
-                        "elementType": "geometry.fill",
-                        "stylers": [
-                            {
-                                "hue": "#00D1B2"
-                            },
-                            {
-                                "saturation": 40
-                            }]
-                    },
-                    {
-                        "featureType": "poi.business",
-                        "stylers": [
-                            { "visibility": "off" }]
 
-                    }
+        const mapElement = document.querySelector('gmp-map');
+
+        async function init() {
+            // Request needed libraries.
+            const [{ InfoWindow }, { AdvancedMarkerElement, PinElement }] =
+                await Promise.all([
+                    google.maps.importLibrary('maps'),
+                    google.maps.importLibrary('marker'),
                 ]);
 
-
-            var mapCanvas = document.getElementById('map-canvas');
-            var mapOptions = {
-                center: new google.maps.LatLng(55.9094671, 21.8457793),
-                zoom: 14,
-                mapTypeControl: false,
-                streetViewControl: false,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-
-            var map = new google.maps.Map(mapCanvas, mapOptions);
-
-            map.mapTypes.set('styled_map', styledMapType);
-            map.setMapTypeId('styled_map');
-
-
-            var klinikos = [
+            const klinikos = [
                 {
-                    position: new google.maps.LatLng(55.9102342, 21.8390292),
+                    position: { lat: 55.9102342, lng: 21.8390292 },
                     title: 'Sanus klinika'
                 }, {
-                    position: new google.maps.LatLng(55.9119882, 21.8488325),
+                    position: { lat: 55.9119882, lng: 21.8488325 },
                     title: 'Ingos Kniukštienės odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(55.9075605, 21.8192527),
+                    position: { lat: 55.9075605, lng: 21.8192527 },
                     title: 'A. Neimonienės odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(55.9128273, 21.8426423),
+                    position: { lat: 55.9128273, lng: 21.8426423 },
                     title: 'Lucida linea'
                 }, {
-                    position: new google.maps.LatLng(55.909949, 21.834836),
+                    position: { lat: 55.909949, lng: 21.834836 },
                     title: 'Viktorijos odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(55.9080718, 21.8400166),
+                    position: { lat: 55.9080718, lng: 21.8400166 },
                     title: 'Aurodenta'
                 }, {
-                    position: new google.maps.LatLng(55.9139018, 21.8460756),
+                    position: { lat: 55.9139018, lng: 21.8460756 },
                     title: 'Plameris (Mačinskų klinika)'
                 }, {
-                    position: new google.maps.LatLng(55.9058708, 21.8501016),
+                    position: { lat: 55.9058708, lng: 21.8501016 },
                     title: 'Gintaras Meškauskas'
                 }, {
-                    position: new google.maps.LatLng(55.9037107, 21.8383875),
+                    position: { lat: 55.9037107, lng: 21.8383875 },
                     title: 'Virginija Daukšienė'
                 }, {
-                    position: new google.maps.LatLng(55.9041602, 21.836869),
+                    position: { lat: 55.9041602, lng: 21.836869 },
                     title: 'Eligija Stančikienė'
                 }, {
-                    position: new google.maps.LatLng(55.9081755, 21.865),
+                    position: { lat: 55.9081755, lng: 21.865 },
                     title: 'Regina Pėtelienė'
                 }, {
-                    position: new google.maps.LatLng(55.9122766, 21.8494924),
+                    position: { lat: 55.9122766, lng: 21.8494924 },
                     title: 'Jūratė Smilgevičienė'
                 }, {
-                    position: new google.maps.LatLng(55.9134863, 21.8396535),
+                    position: { lat: 55.9134863, lng: 21.8396535 },
                     title: 'Gertrūda Šečkuvienė'
                 }
             ];
 
+            // Create an info window to share between markers.
+            const infoWindow = new InfoWindow();
 
-
-            for (var i = 0; i < klinikos.length; i++) {
-                var marker = new google.maps.Marker({
-                    position: klinikos[i].position,
-                    icon: 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (i + 1) + '|99FFF0|000000',
-                    map: map,
-                    title: klinikos[i].title
+            // Create the markers.
+            klinikos.forEach(({ position, title }, i) => {
+                const pin = new PinElement({
+                    glyphText: `${i + 1}`,
+                    scale: 1.5,
+                    glyphColor: 'white',
                 });
-
-                attachMessage(marker, klinikos[i].title);
-
-            };
-
-            function attachMessage(marker, Message) {
-                var infowindow = new google.maps.InfoWindow({
-                    content: Message
+                const marker = new AdvancedMarkerElement({
+                    position,
+                    title: `${i + 1}. ${title}`,
+                    gmpClickable: true,
                 });
+                marker.append(pin);
+                mapElement.append(marker);
 
-                marker.addListener('click', function () {
-                    infowindow.open(marker.get('map'), marker);
+                marker.addEventListener('gmp-click', () => {
+                    infoWindow.close();
+                    infoWindow.setContent(marker.title);
+                    infoWindow.open(marker.map, marker);
                 });
-            }
-
+            });
         }
+
+        void init();
+
     </script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek&amp;callback=initialize">
-        </script>
+
 
 </body>
 

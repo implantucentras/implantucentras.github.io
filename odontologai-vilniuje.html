@@ -30,6 +30,13 @@
 
     </script>
 
+    <script>
+        // prettier-ignore 
+        (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
+            key: "AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek"
+        });
+    </script>
+
 </head>
 
 <body>
@@ -387,8 +394,9 @@
 
             <div class="tile is-ancestor my-4">
                 <div class="tile is-parent is-3">
-                    <a class="tile is-child card is-shady has-background-light" href="https://meliva.lt/klinikos/premium-odontologijos-klinika"
-                        title="www.meliva.lt" rel="nofollow">
+                    <a class="tile is-child card is-shady has-background-light"
+                        href="https://meliva.lt/klinikos/premium-odontologijos-klinika" title="www.meliva.lt"
+                        rel="nofollow">
                         <div class="card-image">
                             <figure class="image is-5by3">
                                 <img src="/images/implantologijoscentras-vivulskio7-vilnius.jpg"
@@ -688,8 +696,9 @@
                     </a>
                 </div>
                 <div class="tile is-parent is-3">
-                    <a class="tile is-child card is-shady has-background-light" href="https://ateitiesodontologijosklinika.lt/"
-                        title="ateitiesodontologijosklinika.lt" rel="nofollow">
+                    <a class="tile is-child card is-shady has-background-light"
+                        href="https://ateitiesodontologijosklinika.lt/" title="ateitiesodontologijosklinika.lt"
+                        rel="nofollow">
                         <div class="card-image">
                             <figure class="image is-5by3">
                                 <img src="/images/ateitiesklinika-ateities9c-vilnius.jpg"
@@ -814,7 +823,8 @@
 
                     <h3 class="title is-4">Odontologijos klinikų žemėlapis</h3>
 
-                    <div id="map-canvas"></div>
+                    <gmp-map zoom="12" center="54.7126787, 25.2629641" map-id="AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek">
+                    </gmp-map>
 
                     <p class="is-size-6">Odontologijos klinikos Vilniuje. 35 populiariausi odontologai.
                     </p>
@@ -848,182 +858,159 @@
 
     <script type="text/javascript" src="/myscript.js"></script>
 
-    <script>
-        function initialize() {
-            var styledMapType = new google.maps.StyledMapType(
-                [
-                    {
-                        "featureType": "landscape.man_made",
-                        "elementType": "geometry.fill",
-                        "stylers": [
-                            {
-                                "hue": "#00D1B2"
-                            },
-                            {
-                                "saturation": 40
-                            }]
-                    },
-                    {
-                        "featureType": "poi.business",
-                        "stylers": [
-                            { "visibility": "off" }]
 
-                    }
+
+    <!--naujas google map-->
+    <script>
+
+        const mapElement = document.querySelector('gmp-map');
+
+        async function init() {
+            // Request needed libraries.
+            const [{ InfoWindow }, { AdvancedMarkerElement, PinElement }] =
+                await Promise.all([
+                    google.maps.importLibrary('maps'),
+                    google.maps.importLibrary('marker'),
                 ]);
 
-
-            var mapCanvas = document.getElementById('map-canvas');
-            var mapOptions = {
-                center: new google.maps.LatLng(54.7126787, 25.2629641),
-                zoom: 12,
-                mapTypeControl: false,
-                streetViewControl: false,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-
-            var map = new google.maps.Map(mapCanvas, mapOptions);
-
-            map.mapTypes.set('styled_map', styledMapType);
-            map.setMapTypeId('styled_map');
-
-
-            var klinikos = [
+            const klinikos = [
                 {
-                    position: new google.maps.LatLng(54.6991797, 25.2682994),
+                    position: { lat: 54.6991797, lng: 25.2682994 },
                     title: 'Dental PRO'
                 }, {
-                    position: new google.maps.LatLng(54.6993952, 25.2675093),
+                    position: { lat: 54.6993952, lng: 25.2675093 },
                     title: 'Odontalis'
                 }, {
-                    position: new google.maps.LatLng(54.70117, 25.2631879),
+                    position: { lat: 54.70117, lng: 25.2631879 },
                     title: 'Vilniaus implantologijos namai'
                 }, {
-                    position: new google.maps.LatLng(54.6928465, 25.2777816),
+                    position: { lat: 54.6928465, lng: 25.2777816 },
                     title: 'Albodent'
                 }, {
-                    position: new google.maps.LatLng(54.6903793, 25.2873234),
+                    position: { lat: 54.6903793, lng: 25.2873234 },
                     title: 'Dantų harmonija'
                 }, {
-                    position: new google.maps.LatLng(54.6913379, 25.2916654),
+                    position: { lat: 54.6913379, lng: 25.2916654 },
                     title: 'Gydytojų Mackevičių odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.6942131, 25.2940998),
+                    position: { lat: 54.6942131, lng: 25.2940998 },
                     title: 'V. Gustainio odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.693708, 25.2936822),
+                    position: { lat: 54.693708, lng: 25.2936822 },
                     title: 'Alandrija'
                 }, {
-                    position: new google.maps.LatLng(54.6961018, 25.2941557),
+                    position: { lat: 54.6961018, lng: 25.2941557 },
                     title: 'Prodentum'
-                },  {
-                    position: new google.maps.LatLng(54.7084027, 25.2999107),
+                }, {
+                    position: { lat: 54.7084027, lng: 25.2999107 },
                     title: 'Vilniaus odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.7057787, 25.3088326),
+                    position: { lat: 54.7057787, lng: 25.3088326 },
                     title: 'Denticija'
-                },  {
-                    position: new google.maps.LatLng(54.7017609, 25.306451),
+                }, {
+                    position: { lat: 54.7017609, lng: 25.306451 },
                     title: 'Antakalnio stomatologijos centras'
                 }, {
-                    position: new google.maps.LatLng(54.672476, 25.2840483),
+                    position: { lat: 54.672476, lng: 25.2840483 },
                     title: 'Beadenta'
                 }, {
-                    position: new google.maps.LatLng(54.6923096, 25.3022012),
+                    position: { lat: 54.6923096, lng: 25.3022012 },
                     title: 'Baldentas'
                 }, {
-                    position: new google.maps.LatLng(54.6799417, 25.2682671),
+                    position: { lat: 54.6799417, lng: 25.2682671 },
                     title: 'Vilniaus implantologijos centras'
-                },  {
-                    position: new google.maps.LatLng(54.6824177, 25.2587996),
+                }, {
+                    position: { lat: 54.6824177, lng: 25.2587996 },
                     title: 'Amicus Dentis'
                 }, {
-                    position: new google.maps.LatLng(54.6715149, 25.2568874),
+                    position: { lat: 54.6715149, lng: 25.2568874 },
                     title: 'Skraidenta'
                 }, {
-                    position: new google.maps.LatLng(54.6732404, 25.2546593),
+                    position: { lat: 54.6732404, lng: 25.2546593 },
                     title: 'Savickų implantavimo ir protezavimo klinika'
                 }, {
-                    position: new google.maps.LatLng(54.6717876, 25.2535034),
+                    position: { lat: 54.6717876, lng: 25.2535034 },
                     title: 'Arūno Tursos odontologijos namai'
                 }, {
-                    position: new google.maps.LatLng(54.6929409, 25.248888),
+                    position: { lat: 54.6929409, lng: 25.248888 },
                     title: 'Šv. Kristoforo odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.6933653, 25.2481003),
+                    position: { lat: 54.6933653, lng: 25.2481003 },
                     title: 'Žvėryno odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.700397, 25.2552052),
+                    position: { lat: 54.700397, lng: 25.2552052 },
                     title: 'Mažoji Užupio klinika'
                 }, {
-                    position: new google.maps.LatLng(54.7030611, 25.1842885),
+                    position: { lat: 54.7030611, lng: 25.1842885 },
                     title: 'Pilėnė'
                 }, {
-                    position: new google.maps.LatLng(54.6768719, 25.2097661),
+                    position: { lat: 54.6768719, lng: 25.2097661 },
                     title: 'Kosmodentas'
                 }, {
-                    position: new google.maps.LatLng(54.7182765, 25.2834635),
+                    position: { lat: 54.7182765, lng: 25.2834635 },
                     title: 'Papadent'
                 }, {
-                    position: new google.maps.LatLng(54.7286479, 25.2764869),
+                    position: { lat: 54.7286479, lng: 25.2764869 },
                     title: 'MIR klinika'
                 }, {
-                    position: new google.maps.LatLng(54.7158206, 25.2849813),
+                    position: { lat: 54.7158206, lng: 25.2849813 },
                     title: 'Mikroskopinės odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.7190779, 25.280149),
+                    position: { lat: 54.7190779, lng: 25.280149 },
                     title: 'Dr. G. Kobs odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.7397723, 25.2735393),
+                    position: { lat: 54.7397723, lng: 25.2735393 },
                     title: 'Jeruzalės odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.739646, 25.2710107),
+                    position: { lat: 54.739646, lng: 25.2710107 },
                     title: 'Ateities odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.720023, 25.2673328),
+                    position: { lat: 54.720023, lng: 25.2673328 },
                     title: 'Ozo odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.7152773, 25.2235468),
+                    position: { lat: 54.7152773, lng: 25.2235468 },
                     title: 'Dentastra'
                 }, {
-                    position: new google.maps.LatLng(54.7632414, 25.2813024),
+                    position: { lat: 54.7632414, lng: 25.2813024 },
                     title: 'Beladenta'
                 }, {
-                    position: new google.maps.LatLng(54.7521587, 25.262134),
+                    position: { lat: 54.7521587, lng: 25.262134 },
                     title: 'Donato Jurgaičio odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.7405463, 25.2242684),
+                    position: { lat: 54.7405463, lng: 25.2242684 },
                     title: 'Vilniaus odontologijos centras'
                 }
             ];
 
-            for (var i = 0; i < klinikos.length; i++) {
-                var marker = new google.maps.Marker({
-                    position: klinikos[i].position,
-                    icon: 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (i + 1) + '|99FFF0|000000',
-                    map: map,
-                    title: klinikos[i].title
+            // Create an info window to share between markers.
+            const infoWindow = new InfoWindow();
+
+            // Create the markers.
+            klinikos.forEach(({ position, title }, i) => {
+                const pin = new PinElement({
+                    glyphText: `${i + 1}`,
+                    scale: 1.5,
+                    glyphColor: 'white',
                 });
-
-                attachMessage(marker, klinikos[i].title);
-
-            };
-
-            function attachMessage(marker, Message) {
-                var infowindow = new google.maps.InfoWindow({
-                    content: Message
+                const marker = new AdvancedMarkerElement({
+                    position,
+                    title: `${i + 1}. ${title}`,
+                    gmpClickable: true,
                 });
+                marker.append(pin);
+                mapElement.append(marker);
 
-                marker.addListener('click', function () {
-                    infowindow.open(marker.get('map'), marker);
+                marker.addEventListener('gmp-click', () => {
+                    infoWindow.close();
+                    infoWindow.setContent(marker.title);
+                    infoWindow.open(marker.map, marker);
                 });
-            }
-
-
+            });
         }
+
+        void init();
+
     </script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek&amp;callback=initialize">
-        </script>
 
 
 </body>

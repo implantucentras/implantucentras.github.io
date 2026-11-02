@@ -28,6 +28,13 @@
 
     </script>
 
+    <script>
+        // prettier-ignore 
+        (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
+            key: "AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek"
+        });
+    </script>
+
 </head>
 
 <body>
@@ -195,7 +202,8 @@
                             </div>
                             <div class="media-right">
                                 <span>
-                                    <a href="https://meliva.lt/klinikos/premium-odontologijos-klinika" rel="nofollow" title="www.meliva.lt">
+                                    <a href="https://meliva.lt/klinikos/premium-odontologijos-klinika" rel="nofollow"
+                                        title="www.meliva.lt">
                                         <span class="icon is-large fa-2x has-text-grey-light">
                                             <i class="fab fa-chrome"></i>
                                         </span>
@@ -743,7 +751,8 @@
 
                     <h3 class="title is-4">Odontologų žemėlapis</h3>
 
-                    <div id="map-canvas"></div>
+                    <gmp-map zoom="12" center="54.90673560078091, 23.942196902638205"
+                        map-id="AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek"></gmp-map>
 
                     <p class="is-size-6">Odontologijos klinikos Kaune. 25 populiariausi odontologai.
                     </p>
@@ -757,152 +766,130 @@
 
     <script type="text/javascript" src="/myscript.js"></script>
 
+    <!--naujas google map-->
     <script>
-        function initialize() {
-            var styledMapType = new google.maps.StyledMapType(
-                [
-                    {
-                        "featureType": "landscape.man_made",
-                        "elementType": "geometry.fill",
-                        "stylers": [
-                            {
-                                "hue": "#00D1B2"
-                            },
-                            {
-                                "saturation": 40
-                            }]
-                    },
-                    {
-                        "featureType": "poi.business",
-                        "stylers": [
-                            { "visibility": "off" }]
 
-                    }
+        const mapElement = document.querySelector('gmp-map');
+
+        async function init() {
+            // Request needed libraries.
+            const [{ InfoWindow }, { AdvancedMarkerElement, PinElement }] =
+                await Promise.all([
+                    google.maps.importLibrary('maps'),
+                    google.maps.importLibrary('marker'),
                 ]);
 
-
-            var mapCanvas = document.getElementById('map-canvas');
-            var mapOptions = {
-                center: new google.maps.LatLng(54.90673560078091, 23.942196902638205),
-                zoom: 12,
-                mapTypeControl: false,
-                streetViewControl: false,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-
-            var map = new google.maps.Map(mapCanvas, mapOptions);
-
-            map.mapTypes.set('styled_map', styledMapType);
-            map.setMapTypeId('styled_map');
-
-
-            var klinikos = [
+            const klinikos = [
                 {
-                    position: new google.maps.LatLng(54.93404164308458, 23.961002471446108),
+                    position: { lat: 54.93404164308458, lng: 23.961002471446108 },
                     title: 'Clinic DPC'
                 }, {
-                    position: new google.maps.LatLng(54.928629945994814, 23.883393270010995),
+                    position: { lat: 54.928629945994814, lng: 23.883393270010995 },
                     title: 'Neodenta'
                 }, {
-                    position: new google.maps.LatLng(54.90755285018266, 23.927177889830308),
+                    position: { lat: 54.90755285018266, lng: 23.927177889830308 },
                     title: 'Denticija'
                 }, {
-                    position: new google.maps.LatLng(54.925145686209284, 23.93423029884655),
+                    position: { lat: 54.925145686209284, lng: 23.93423029884655 },
                     title: 'Meliva (VIC odontologijos klinikos)'
                 }, {
-                    position: new google.maps.LatLng(54.89879909760212, 23.92415374117465),
+                    position: { lat: 54.89879909760212, lng: 23.92415374117465 },
                     title: 'Pro implant'
                 }, {
-                    position: new google.maps.LatLng(54.9279238723305, 23.878162698846555),
+                    position: { lat: 54.9279238723305, lng: 23.878162698846555 },
                     title: '&ampsmile'
                 }, {
-                    position: new google.maps.LatLng(54.89822477698869, 23.894518525831856),
+                    position: { lat: 54.89822477698869, lng: 23.894518525831856 },
                     title: 'Senamiesčio stomatologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.898780181623316, 23.888152285352955),
+                    position: { lat: 54.898780181623316, lng: 23.888152285352955 },
                     title: 'Aukštėja'
                 }, {
-                    position: new google.maps.LatLng(54.86820618662714, 23.88920345651646),
+                    position: { lat: 54.86820618662714, lng: 23.88920345651646 },
                     title: 'T. Andziulio odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.881392064280746, 23.92918252768109),
+                    position: { lat: 54.881392064280746, lng: 23.92918252768109 },
                     title: 'Centro odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.923094158114445, 23.93589349884658),
+                    position: { lat: 54.923094158114445, lng: 23.93589349884658 },
                     title: 'Lazerinės odontologijos centras'
                 }, {
-                    position: new google.maps.LatLng(54.904837843199864, 23.91853654117471),
+                    position: { lat: 54.904837843199864, lng: 23.91853654117471 },
                     title: 'Extradent'
                 }, {
-                    position: new google.maps.LatLng(54.927789278107376, 23.969934256518048),
+                    position: { lat: 54.927789278107376, lng: 23.969934256518048 },
                     title: 'Kauno ortodontijos centras'
                 }, {
-                    position: new google.maps.LatLng(54.92983604892553, 23.967866627682454),
+                    position: { lat: 54.92983604892553, lng: 23.967866627682454 },
                     title: 'Černikis dental'
                 }, {
-                    position: new google.maps.LatLng(54.89631903510189, 23.924896898845766),
+                    position: { lat: 54.89631903510189, lng: 23.924896898845766 },
                     title: 'Stilus optimus'
                 }, {
-                    position: new google.maps.LatLng(54.90342192731187, 23.935386598846012),
+                    position: { lat: 54.90342192731187, lng: 23.935386598846012 },
                     title: 'Šv. Apolonijos odontologijos centras'
                 }, {
-                    position: new google.maps.LatLng(54.91192759603715, 23.935210212339243),
+                    position: { lat: 54.91192759603715, lng: 23.935210212339243 },
                     title: 'Visdenta'
                 }, {
-                    position: new google.maps.LatLng(54.905967395693544, 23.94988834117477),
+                    position: { lat: 54.905967395693544, lng: 23.94988834117477 },
                     title: 'Prof. A. Šurnos odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(54.90350918389275, 23.914183727681703),
+                    position: { lat: 54.90350918389275, lng: 23.914183727681703 },
                     title: 'Šypsenos magija'
                 }, {
-                    position: new google.maps.LatLng(54.92450200697258, 23.881658907143997),
+                    position: { lat: 54.92450200697258, lng: 23.881658907143997 },
                     title: 'Prodentas'
                 }, {
-                    position: new google.maps.LatLng(54.900583806817366, 23.964851470010288),
+                    position: { lat: 54.900583806817366, lng: 23.964851470010288 },
                     title: 'Arinija'
                 }, {
-                    position: new google.maps.LatLng(54.90544491987371, 23.92726789884596),
+                    position: { lat: 54.90544491987371, lng: 23.92726789884596 },
                     title: 'Odontologijos praktikos centras'
                 }, {
-                    position: new google.maps.LatLng(54.89481133925907, 23.92130557001007),
+                    position: { lat: 54.89481133925907, lng: 23.92130557001007 },
                     title: 'Ortovita'
                 }, {
-                    position: new google.maps.LatLng(54.91737365020269, 23.962021675654),
+                    position: { lat: 54.91737365020269, lng: 23.962021675654 },
                     title: 'Denta'
                 }, {
-                    position: new google.maps.LatLng(54.92066329590216, 23.971869541175078),
+                    position: { lat: 54.92066329590216, lng: 23.971869541175078 },
                     title: 'Dantenė'
                 }
 
             ];
 
-            for (var i = 0; i < klinikos.length; i++) {
-                var marker = new google.maps.Marker({
-                    position: klinikos[i].position,
-                    icon: 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (i + 1) + '|99FFF0|000000',
-                    map: map,
-                    title: klinikos[i].title
+            // Create an info window to share between markers.
+            const infoWindow = new InfoWindow();
+
+            // Create the markers.
+            klinikos.forEach(({ position, title }, i) => {
+                const pin = new PinElement({
+                    glyphText: `${i + 1}`,
+                    scale: 1.5,
+                    glyphColor: 'white',
                 });
-
-                attachMessage(marker, klinikos[i].title);
-
-            };
-
-            function attachMessage(marker, Message) {
-                var infowindow = new google.maps.InfoWindow({
-                    content: Message
+                const marker = new AdvancedMarkerElement({
+                    position,
+                    title: `${i + 1}. ${title}`,
+                    gmpClickable: true,
                 });
+                marker.append(pin);
+                mapElement.append(marker);
 
-                marker.addListener('click', function () {
-                    infowindow.open(marker.get('map'), marker);
+                marker.addEventListener('gmp-click', () => {
+                    infoWindow.close();
+                    infoWindow.setContent(marker.title);
+                    infoWindow.open(marker.map, marker);
                 });
-            }
-
+            });
         }
+
+        void init();
+
     </script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek&amp;callback=initialize">
-        </script>
+
+
 
 </body>
 

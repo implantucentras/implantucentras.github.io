@@ -29,6 +29,13 @@
 
     </script>
 
+    <script>
+        // prettier-ignore 
+        (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
+            key: "AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek"
+        });
+    </script>
+
 </head>
 
 <body>
@@ -173,7 +180,8 @@
                             </div>
                             <div class="media-right">
                                 <span>
-                                    <a href="https://meliva.lt/klinikos/klaipeda-vingio-g-14" rel="nofollow" title="meliva.lt">
+                                    <a href="https://meliva.lt/klinikos/klaipeda-vingio-g-14" rel="nofollow"
+                                        title="meliva.lt">
                                         <span class="icon is-large fa-2x has-text-grey-light">
                                             <i class="fab fa-chrome"></i>
                                         </span>
@@ -473,7 +481,8 @@
                             </div>
                             <div class="media-right">
                                 <span>
-                                    <a href="https://implantologijosklinika.lt/" rel="nofollow" title="implantologijosklinika.lt">
+                                    <a href="https://implantologijosklinika.lt/" rel="nofollow"
+                                        title="implantologijosklinika.lt">
                                         <span class="icon is-large fa-2x has-text-grey-light">
                                             <i class="fab fa-chrome"></i>
                                         </span>
@@ -495,7 +504,8 @@
 
                     <h3 class="title is-4">Odontologų žemėlapis</h3>
 
-                    <div id="map-canvas"></div>
+                    <gmp-map zoom="12" center="55.699882, 21.1407963" map-id="AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek">
+                    </gmp-map>
 
                     <p class="is-size-6">Odontologijos klinikos Klaipėdoje. 15 populiariausių odontologų.
                     </p>
@@ -509,122 +519,99 @@
 
     <script type="text/javascript" src="/myscript.js"></script>
 
+    <!--naujas google map-->
     <script>
-        function initialize() {
-            var styledMapType = new google.maps.StyledMapType(
-                [
-                    {
-                        "featureType": "landscape.man_made",
-                        "elementType": "geometry.fill",
-                        "stylers": [
-                            {
-                                "hue": "#00D1B2"
-                            },
-                            {
-                                "saturation": 40
-                            }]
-                    },
-                    {
-                        "featureType": "poi.business",
-                        "stylers": [
-                            { "visibility": "off" }]
 
-                    }
+        const mapElement = document.querySelector('gmp-map');
+
+        async function init() {
+            // Request needed libraries.
+            const [{ InfoWindow }, { AdvancedMarkerElement, PinElement }] =
+                await Promise.all([
+                    google.maps.importLibrary('maps'),
+                    google.maps.importLibrary('marker'),
                 ]);
 
-
-            var mapCanvas = document.getElementById('map-canvas');
-            var mapOptions = {
-                center: new google.maps.LatLng(55.699882, 21.1407963),
-                zoom: 12,
-                mapTypeControl: false,
-                streetViewControl: false,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-
-            var map = new google.maps.Map(mapCanvas, mapOptions);
-
-            map.mapTypes.set('styled_map', styledMapType);
-            map.setMapTypeId('styled_map');
-
-
-            var klinikos = [
+            const klinikos = [
                 {
-                    position: new google.maps.LatLng(55.711184, 21.1319479),
+                    position: { lat: 55.711184, lng: 21.1319479 },
                     title: 'Danės odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(55.719401, 21.1170262),
+                    position: { lat: 55.719401, lng: 21.1170262 },
                     title: 'Vaidenta'
                 }, {
-                    position: new google.maps.LatLng(55.6714941, 21.1897578),
+                    position: { lat: 55.6714941, lng: 21.1897578 },
                     title: 'Meliva'
                 }, {
-                    position: new google.maps.LatLng(55.7202294, 21.1328608),
+                    position: { lat: 55.7202294, lng: 21.1328608 },
                     title: 'Evadenta'
                 }, {
-                    position: new google.maps.LatLng(55.6777422, 21.1662276),
+                    position: { lat: 55.6777422, lng: 21.1662276 },
                     title: 'Lela'
                 }, {
-                    position: new google.maps.LatLng(55.7135853, 21.1318504),
+                    position: { lat: 55.7135853, lng: 21.1318504 },
                     title: 'Klinike'
                 }, {
-                    position: new google.maps.LatLng(55.7180968, 21.120245),
+                    position: { lat: 55.7180968, lng: 21.120245 },
                     title: 'Žavi šypsena'
                 }, {
-                    position: new google.maps.LatLng(55.7138309, 21.1229201),
+                    position: { lat: 55.7138309, lng: 21.1229201 },
                     title: 'Danvitė'
                 }, {
-                    position: new google.maps.LatLng(55.7168106, 21.1456653),
+                    position: { lat: 55.7168106, lng: 21.1456653 },
                     title: 'Liepų klinika'
                 }, {
-                    position: new google.maps.LatLng(55.703839, 21.1404592),
+                    position: { lat: 55.703839, lng: 21.1404592 },
                     title: 'Klaipėdos ortodontijos centras'
                 }, {
-                    position: new google.maps.LatLng(55.75032, 21.1277591),
+                    position: { lat: 55.75032, lng: 21.1277591 },
                     title: 'Pajūrio odontologijos centras'
                 }, {
-                    position: new google.maps.LatLng(55.7127366, 21.1236743),
+                    position: { lat: 55.7127366, lng: 21.1236743 },
                     title: 'Bokštų odontologijos klinika'
                 }, {
-                    position: new google.maps.LatLng(55.7131783, 21.1339716),
+                    position: { lat: 55.7131783, lng: 21.1339716 },
                     title: 'Deodenta'
                 }, {
-                    position: new google.maps.LatLng(55.7213303, 21.1264998),
+                    position: { lat: 55.7213303, lng: 21.1264998 },
                     title: 'Dens perfectus'
                 }, {
-                    position: new google.maps.LatLng(55.7028951, 21.1346126),
+                    position: { lat: 55.7028951, lng: 21.1346126 },
                     title: 'Miesto implantologijos klinika'
                 }
 
             ];
 
-            for (var i = 0; i < klinikos.length; i++) {
-                var marker = new google.maps.Marker({
-                    position: klinikos[i].position,
-                    icon: 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (i + 1) + '|99FFF0|000000',
-                    map: map,
-                    title: klinikos[i].title
+            // Create an info window to share between markers.
+            const infoWindow = new InfoWindow();
+
+            // Create the markers.
+            klinikos.forEach(({ position, title }, i) => {
+                const pin = new PinElement({
+                    glyphText: `${i + 1}`,
+                    scale: 1.5,
+                    glyphColor: 'white',
                 });
-
-                attachMessage(marker, klinikos[i].title);
-
-            };
-
-            function attachMessage(marker, Message) {
-                var infowindow = new google.maps.InfoWindow({
-                    content: Message
+                const marker = new AdvancedMarkerElement({
+                    position,
+                    title: `${i + 1}. ${title}`,
+                    gmpClickable: true,
                 });
+                marker.append(pin);
+                mapElement.append(marker);
 
-                marker.addListener('click', function () {
-                    infowindow.open(marker.get('map'), marker);
+                marker.addEventListener('gmp-click', () => {
+                    infoWindow.close();
+                    infoWindow.setContent(marker.title);
+                    infoWindow.open(marker.map, marker);
                 });
-            }
-
+            });
         }
+
+        void init();
+
     </script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkUQ8QKWzZFyqU6j02EC9Fwen3LOZG9ek&amp;callback=initialize">
-        </script>
+
 
 </body>
 
